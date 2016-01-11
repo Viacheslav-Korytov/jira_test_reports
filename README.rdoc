@@ -1,8 +1,8 @@
 == README
 
-Solution to pull information from Jira and create QA statistical reports on releases, CRs, test cases, issues and their histories. Using up to 30 threads to pull from data from Jira.
+Solution to pull information from Jira and create QA statistical reports on releases, CRs, test cases, issues and their histories. Using up to 30 threads to pull data from Jira.
 
-The solution has been used in Net Cracker, so details are specific to it configuration and use cases.
+The solution has been used in Net Cracker, so details are specific to its configuration and use cases.
 
 * Rails 4.0.2
 * Ruby 1.9.3p484
