@@ -1,0 +1,39 @@
+<h1>Listing last_reports</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Total</th>
+      <th>Passed</th>
+      <th>Failed</th>
+      <th>Inprogress</th>
+      <th>P executed</th>
+      <th>P passed</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @last_reports.each do |last_report| %>
+      <tr>
+        <td><%= last_report.issue %></td>
+        <td><%= last_report.total %></td>
+        <td><%= last_report.passed %></td>
+        <td><%= last_report.failed %></td>
+        <td><%= last_report.inprogress %></td>
+        <td><%= last_report.p_executed %></td>
+        <td><%= last_report.p_passed %></td>
+        <td><%= link_to 'Show', last_report %></td>
+        <td><%= link_to 'Edit', edit_last_report_path(last_report) %></td>
+        <td><%= link_to 'Destroy', last_report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Last report', new_last_report_path %>

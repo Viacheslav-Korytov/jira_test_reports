@@ -1,0 +1,57 @@
+<% if issues.size > 0 %>
+
+<h2>Activities for last weeks</h2>
+
+<table border="1">
+	<tr bgcolor="#ddddff">
+	<th>Week</th>
+	<th>Created</th>
+	<th>Reopened</th>
+	<th>Regression issues</th>
+	<th>Ready for Testing</th>
+	<th>Changed to RFT</th>
+	<th>Closed after testing</th>
+	<th>Closed total</th>
+	<th>Reopen rate</th>
+	<th>Closed rate</th>
+	</tr>
+		<% (year_plus_week(Time.now - @weeks.to_i.weeks)..year_plus_week(Time.now)).each do |yw| %>
+			<tr>
+				<td><%= show_week_days(yw) %></td>
+				<td><center><%= changed_status_from_to_during_week('ANY', 'Created', yw) %></center></td>
+				<td><center><%= r_o = changed_status_from_to_during_week('Ready for Testing', 'Reopened', yw) %></center></td>
+				<td><center><%= changed_status_from_to_during_week('Closed', 'Reopened', yw) %></center></td>
+				<td><center><%= r = have_status_this_week('Ready for Testing', yw) %></center></td>
+				<td><center><%= changed_status_from_to_during_week('ANY', 'Ready for Testing', yw) %></center></td>
+				<td><center><%= r_c = changed_status_from_to_during_week('Ready for Testing', 'Closed', yw) %></center></td>
+				<td><center><%= changed_status_from_to_during_week('ANY', 'Closed', yw) %></center></td>
+				<td><center><%= r == 0 ? 0 : r_o * 100 / r %>%</center></td>
+				<td><center><%= r == 0 ? 0 : r_c * 100 / r %>%</center></td>
+			</tr>
+		<% end %>
+</table>
+<hr>
+<br /><br /><br />
+
+<% end %>
+
+<hr>
+<h3>Filter:</h3>
+<div>
+<%= form_tag( {}, method: "get") do %>
+  <%= text_area_tag 'jql', @jql.to_s, size: "100x2" %>
+  <br/>
+  <h3>Number of weeks: </h3><%= select_tag 'weeks', options_for_select( (2..20).map, "#{@weeks}") %>
+  <br/><br/>
+  <%= submit_tag "Calculate" %>
+<% end %>
+</div> 
+<hr>
+<br/><br/>
+
+<h3>History of filters:</h3>
+<% @history_filters.each do |f| %>
+	<p><%= "#{f['body'].to_s}" %></p>
+<% end %>
+<hr>
+<br/><br/>

@@ -1,0 +1,9 @@
+<% if !link['outwardIssue'].nil? %>
+	<% i = link['outwardIssue'] %>
+	<%= render "link2", :i => i %>
+<% elsif !link['inwardIssue'].nil? %>
+	<% i = link['inwardIssue'] %>
+	<%= render "link2", :i => i %>
+<% else %>
+	<%= "--- #{link}" %><br />
+<% end %>

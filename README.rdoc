@@ -1,0 +1,11 @@
+== README
+
+Solution to pull information from Jira and create QA statistical reports on releases, CRs, test cases, issues and their histories. Using up to 30 threads to pull from data from Jira.
+
+The solution has been used in Net Cracker, so details are specific to it configuration and use cases.
+
+* Rails 4.0.2
+* Ruby 1.9.3p484
+
+* Credentials and site to connect taken from json file 'c:\Projects\RoR\TMS_options.txt' in application controller.
+

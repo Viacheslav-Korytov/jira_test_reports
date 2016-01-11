@@ -1,0 +1,44 @@
+<% if issues.size > 0 %>
+<% if caption.nil? %>
+<h2>Critical Bugs still open (<%= issues.size %>)</h2>
+<% else %>
+<h2><%= "#{caption} (#{issues.size})" %></h2>
+<% end %>
+<table border="1" width=100%>
+<!--
+	<caption>
+		Internal bugs (TMS)
+	</caption>
+-->
+	<tr bgcolor="#ddddff">
+	<th>ID</th>
+	<th>Summary</th>
+	<th>Priority</th>
+	<th>Status</th>
+	<th>Assignee</th>
+	<th>Aging</th>
+	</tr>
+	<% issues.each do |bug| %>
+		<% if bug.fields['status']['name'] == 'Closed' %>
+			<tr bgcolor="#CCFFCC">
+		<% else %>
+			<% case bug.fields['priority']['name'] %>
+			<% when 'Blocker' %>
+				<tr bgcolor="#FBCCB2">
+			<% when 'Critical' %>
+				<tr bgcolor="#FBDCB2">
+			<% when 'Major' %>
+				<tr bgcolor="#FBE9B2">
+			<% when 'Normal' %>
+				<tr bgcolor="#FBF5B2">
+			<% else %>
+				<tr bgcolor="#FBFCB2">
+			<% end %>
+		<% end %>
+			<%= render "link2bug_extended_cogeco", :i => bug %>
+		</tr>
+	<% end %>
+</table>
+<hr>
+<br />
+<% end %>

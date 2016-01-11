@@ -1,0 +1,63 @@
+<h2><center>Stream: <%= stream_name %></center></h2>
+
+<table border="2" width="100%">
+	<tr bgcolor="#ddddff">
+		<th rowspan="2" width="10%">Epic</th>
+		<th rowspan="2" width="40%">QA Story</th>
+		<th colspan="2" width="15%">Test Design</th>
+		<th colspan="6" width="35%">Test Execution</th>
+	</tr>
+	<tr bgcolor="#ddddff">
+		<th width="7%">Planned</th>
+		<th width="7%">Ready</th>
+		<th width="7%">Passed</th>
+		<th width="7%">Failed</th>
+		<th width="7%">In Progress</th>
+		<th width="7%">% Executed</th>
+		<th width="7%">% Passed</th>
+	</tr>
+	
+<% st_total = Array.new(5, 0) %>
+<% stories.each do |issue| %>
+	<% get_stat(issue, nil, true) %>
+	<% st_total[0] += @stat[12].to_i %>
+	<% st_total[1] += @stat[0].to_i %>
+	<% st_total[2] += @stat[1].to_i %>
+	<% st_total[3] += @stat[2].to_i %>
+	<% st_total[4] += @stat[3].to_i %>
+	
+	
+	<% if (@stat[1] == @stat[0]) && (@stat[1] > 0)  %>
+		<tr bgcolor="#CCFFCC">
+	<% else %>
+		<tr>
+	<% end %>
+	<td><%= link_to "#{issue.fields['customfield_10006']}", "#{@browse_address}#{issue.fields['customfield_10006']}", target: '_blank' unless issue.fields['customfield_10006'].nil? %></td>
+	<td><%= link_to "#{issue.fields['summary']}", "#{@browse_address}#{issue.key}", target: '_blank' %></td>
+	<%= render "tc_stat_cogeco" %>
+	<td><center>
+		<% if (@stat[13] - @stat[4]) > 10 %>
+			<span style="color:red"><%= @stat[4] %>%</span>
+		<% else %>
+			<%= @stat[4] %>% 
+		<% end %>
+		<%= @stat[10] %></center></td>
+	<td><center><%= @stat[5] %>% <%= @stat[11] %></center></td>
+	</tr>
+<% end %>
+
+<tr bgcolor="#dddddd">
+	<td></td>
+	<td><center>TOTAL:</center></td>
+	<td><center><%= st_total[0] %></center></td>
+	<td><center><%= st_total[1] %></center></td>
+	<td><center><%= st_total[2] %></center></td>
+	<td><center><%= st_total[3] %></center></td>
+	<td><center><%= st_total[4] %></center></td>
+	<td><center><%= (st_total[2] + st_total[3]) * 100 / st_total[0] if st_total[0] > 0 %>%</center></td>
+	<td><center><%= st_total[2] * 100 / st_total[0] if st_total[0] > 0 %>%</center></td>
+</tr>
+
+</table>
+<hr>
+<br />

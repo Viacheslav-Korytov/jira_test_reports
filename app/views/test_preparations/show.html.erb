@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Issue:</strong>
+  <%= @test_preparation.issue %>
+</p>
+
+<p>
+  <strong>Tc plan:</strong>
+  <%= @test_preparation.tc_plan %>
+</p>
+
+<p>
+  <strong>Tc date:</strong>
+  <%= @test_preparation.tc_date %>
+</p>
+
+<%= link_to 'Edit', edit_test_preparation_path(@test_preparation) %> |
+<%= link_to 'Index', test_preparations_path %>

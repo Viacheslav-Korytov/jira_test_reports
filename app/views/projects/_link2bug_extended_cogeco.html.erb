@@ -1,0 +1,21 @@
+<td width="12%"><%= link_to "#{i.key}", "#{@browse_address}#{i.key}", target: '_blank' %></td>
+<td><%= link_to "#{i.fields['summary']}", "#{@browse_address}#{i.key}", target: '_blank' %></td>
+<td width="7%"><center>
+	<% if i.fields['priority']['name'] == 'Blocker' %>
+		<span style="color:red">
+		<strong><%= "#{i.fields['priority']['name']}" %></strong>
+		</span>
+	<% else %>
+		<%= "#{i.fields['priority']['name']}" %>
+	<% end %>
+</center></td>
+<td width="11%"><center><%= "#{i.fields['status']['name']}" %></center></td>
+<td width="17%"><%= "#{i.fields['assignee']['displayName']}" unless i.fields['assignee'].nil? %></td>
+<% t1 = (Time.now - i.fields['created'][0..9].to_time).to_i / 1.day %>
+<td width="5%"><center>
+<% if color_bool(t1, i.fields['status']['name'], i.fields['priority']['name']) %>
+	<span style="color:red"><strong><%= "#{t1}" %></strong></span>
+<% else %>
+	<%= "#{t1}" if i.fields['status']['name'] != 'Closed' %>
+<% end %>
+</center></td>

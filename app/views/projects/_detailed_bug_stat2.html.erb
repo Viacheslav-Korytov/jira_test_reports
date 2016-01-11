@@ -1,0 +1,44 @@
+<% if issues.size > 0 %>
+<h2>
+<% if caption.nil? %>
+	<% if wi_link.nil? %>
+		Critical Bugs still open
+	<% else %>
+		<%= get_tms_link wi_link.key, wi_link.fields['summary'] %>
+	<% end %>
+<% else %>
+	<% if wi_link.nil? %>
+		<%= caption %>
+	<% else %>
+		<%= get_tms_link wi_link.key, caption %>
+	<% end %>
+<% end %>
+</h2>
+<table border="1" width=100%>
+<!--
+	<caption>
+		Internal bugs (TMS)
+	</caption>
+-->
+	<tr bgcolor="#ddddff">
+	<th>ID</th>
+	<th>Summary</th>
+	<th>Priority</th>
+	<th>Status</th>
+	<th>Assignee</th>
+	<th>Aging</th>
+	<th>CR</th>
+	</tr>
+	<% issues.each do |bug| %>
+		<% if bug.fields['status']['name'] == 'Closed' %>
+			<tr bgcolor="#CCFFCC">
+		<% else %>
+			<tr>
+		<% end %>
+			<%= render "link2bug_extended", :i => bug %>
+		</tr>
+	<% end %>
+</table>
+<hr>
+<br />
+<% end %>

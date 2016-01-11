@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Issue:</strong>
+  <%= @last_report.issue %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @last_report.total %>
+</p>
+
+<p>
+  <strong>Passed:</strong>
+  <%= @last_report.passed %>
+</p>
+
+<p>
+  <strong>Failed:</strong>
+  <%= @last_report.failed %>
+</p>
+
+<p>
+  <strong>Inprogress:</strong>
+  <%= @last_report.inprogress %>
+</p>
+
+<p>
+  <strong>P executed:</strong>
+  <%= @last_report.p_executed %>
+</p>
+
+<p>
+  <strong>P passed:</strong>
+  <%= @last_report.p_passed %>
+</p>
+
+<%= link_to 'Edit', edit_last_report_path(@last_report) %> |
+<%= link_to 'Back', last_reports_path %>

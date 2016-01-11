@@ -1,0 +1,6 @@
+<td width="12%"><%= link_to "#{i.key}", "#{@browse_address}#{i.key}", target: '_blank' %></td>
+<td><%= link_to "#{i.fields['summary']}", "#{@browse_address}#{i.key}", target: '_blank' %></td>
+<td width="7%"><center>
+		<%= "#{i.fields['priority']['name']}" %>
+</center></td>
+<td width="50%"><%= "#{last_status_change_date(i.key, '', false)} -- #{get_open_intervals(i.key)}" %></td>

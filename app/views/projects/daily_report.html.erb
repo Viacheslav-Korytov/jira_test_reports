@@ -1,0 +1,111 @@
+<table width=100%>
+<tr><td width=70%></td>
+<td align=right width=15%><%= link_to "CRs visibility", options_path %></td>
+<td align=right><%= link_to "Configure test cases", test_preparations_path %></td>
+</tr></table>
+<h1><center><%= "CRs in Testing - #{@project.key} (#{@project.name})" %></center></h1>
+<% @versions.each do |version| %>
+<h2><%= version %></h2>
+<table border="2" width="100%">
+	<tr bgcolor="#ddddff">
+		<th rowspan="2" width="40%">Name</th>
+		<th colspan="4" width="35%">Test Cases</th>
+		<th colspan="2">% Executed</th>
+		<th rowspan="2">% Passed</th>
+	</tr>
+	<tr bgcolor="#ddddff">
+		<th width="15%">Total</th>
+		<th width="7%">Passed</th>
+		<th width="7%">Failed</th>
+		<th width="7%">In Progress</th>
+		<th width="7%">Planned</th>
+		<th width="7%">Actual</th>
+	</tr>
+<% @wi.sort_by{ |u| u.fields['summary'] }.each do |issue| %>
+  <% if issue.fields['fixVersions'][0]['name'] == version %>
+	<% get_stat(issue) %>
+	
+	<% if (@stat[1] == @stat[0]) && (@stat[1] > 0) %>
+		<tr bgcolor="#CCFFCC">
+	<% else %>
+		<tr>
+	<% end %>
+	<td><%= link_to "#{issue.fields['summary']}", "#{@browse_address}#{issue.key}", target: '_blank' %></td>
+	<%= render "tc_stat", :no_caption => true %>
+	<td><center><%= @stat[13] %>%</center></td>
+	<td><center>
+		<% if (@stat[13] - @stat[4]) > 10 %>
+			<span style="color:red"><%= @stat[4] %>%</span>
+		<% else %>
+			<%= @stat[4] %>% 
+		<% end %>
+		<%= @stat[10] %></center></td>
+	<td><center><%= @stat[5] %>% <%= @stat[11] %></center></td>
+	</tr>
+  <% end %>
+<% end %>
+</table>
+<hr>
+<br />
+<% end %>
+
+<%= render 'detailed_bug_stat', :issues => @issues, :caption => 'Blockers and Critical issues in open status' %>
+<%= render 'detailed_bug_stat', :issues => @non_crit_issues, :caption => 'Non-critical issues in open status' %>
+<%= render 'detailed_bug_stat', :issues => @week_issues, :caption => 'Issues for last week' %>
+
+<%= render 'uat_stat', :uat_wi => @uat_wi %>
+
+<%= render 'detailed_bug_stat', :issues => @regr_issues, :caption => 'Regression Bugs - '+@regr_wi.fields['summary'] unless @regr_wi.nil? %>
+
+<%= render 'detailed_bug_stat2', :issues => @supp_issues, :caption => nil, :wi_link => @supp_wi unless @supp_wi.nil? %>
+
+
+<h2>Integration Testing</h2>
+<table border="2" width="100%">
+	<tr bgcolor="#ddddff">
+		<th rowspan="2" width="40%">Name</th>
+		<th colspan="4" width="35%">Test Cases</th>
+		<th colspan="2">% Executed</th>
+		<th rowspan="2">% Passed</th>
+	</tr>
+	<tr bgcolor="#ddddff">
+		<th width="15%">Total</th>
+		<th width="7%">Passed</th>
+		<th width="7%">Failed</th>
+		<th width="7%">In Progress</th>
+		<th width="7%">Planned</th>
+		<th width="7%">Actual</th>
+	</tr>
+<% @wi.sort_by{ |u| u.fields['summary'] }.each do |issue| %>
+  <% if issue.fields['summary'].include?('Integration') && !@int_exclude.include?(issue.key) %>
+	<% get_stat(issue, '13.1.2016'.to_date) %>
+	
+	<% if (@stat[1] == @stat[0]) && (@stat[1] > 0) %>
+		<tr bgcolor="#CCFFCC">
+	<% else %>
+		<tr>
+	<% end %>
+	<td><%= link_to "#{issue.fields['summary']}", "#{@browse_address}#{issue.key}", target: '_blank' %></td>
+	<%= render "tc_stat", :no_caption => true %>
+	<td><center><%= @stat[13] %>%</center></td>
+	<td><center>
+		<% if (@stat[13] - @stat[4]) > 10 %>
+			<span style="color:red"><%= @stat[4] %>%</span>
+		<% else %>
+			<%= @stat[4] %>% 
+		<% end %>
+		<%= @stat[10] %></center></td>
+	<td><center><%= @stat[5] %>% <%= @stat[11] %></center></td>
+	</tr>
+  <% end %>
+<% end %>
+</table>
+<hr>
+
+
+
+<br />
+<hr>
+<center>
+<%= link_to "Save current state of the report for using as a baseline", set_baseline_path, data: { confirm: 'Are you sure?' } %>
+</center>

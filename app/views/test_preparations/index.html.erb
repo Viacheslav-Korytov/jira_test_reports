@@ -1,0 +1,40 @@
+<h1>Test Cases Preparation Plan</h1>
+<table width=100%>
+<tr><td width=80%></td>
+<td align=right>
+<%= link_to "Daily Report", daily_report_path %>
+</td>
+</tr>
+</table>
+<br />
+
+<table cellspacing="1" cellpadding="5" border="1" width="100%">
+  <thead>
+    <tr>
+      <th>CR</th>
+      <th>Number of planned TC</th>
+      <th>Start execution date</th>
+      <th>Complete execution date</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @test_preparations.each do |test_preparation| %>
+      <tr>
+        <td><%= find_summary_by_key(test_preparation.issue) %></td>
+        <td align="center"><%= test_preparation.tc_plan %></td>
+        <td align="center"><%= test_preparation.tc_date.to_date %></td>
+        <td align="center"><%= test_preparation.complete_date.to_date unless test_preparation.complete_date.nil? %></td>
+        <td><%= link_to 'Edit', edit_test_preparation_path(test_preparation) %></td>
+        <td><%= link_to 'Destroy', test_preparation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br />
+<br />
+
+<%= link_to 'New Test preparation', new_test_preparation_path %>

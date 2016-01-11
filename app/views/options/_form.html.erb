@@ -1,0 +1,32 @@
+<%= form_for(@option) do |f| %>
+  <% if @option.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@option.errors.count, "error") %> prohibited this option from being saved:</h2>
+
+      <ul>
+      <% @option.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table cellspacing="1" cellpadding="5" border="1" width="100%">
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>CR</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td><%= f.select :key, options_for_select([['exclude', 'exclude'],['uat', 'uat'],['regression','regression'],['support','support'],['remove from integration','remove from integration']], @option.key) %></td>
+      <td><%= f.select :option, options_for_select(@wi_list, @option.option) %></td>
+    </tr>
+  </tbody>
+</table>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,47 @@
+<% if issues.size > 0 %>
+<% unless caption.nil? %>
+<h2><%= caption %></h2>
+<% end %>
+<table border="1" width=100%>
+	<tr bgcolor="#ddddff">
+	<th>ID</th>
+	<th>Summary</th>
+	<th>Priority</th>
+	<th>Status</th>
+	<th>Assignee</th>
+	<th>Created</th>
+	<th>Last Upd</th>
+	<th>Last Status Update</th>
+	<th>Due Date</th>
+	<th>Label</th>
+	<th>Label added</th>
+	<th>Components</th>
+	<th>Is blocked by defects</th>
+	<th>Blocks defects</th>
+	<th>Blocks TC</th>
+	<th>Last Reopened</th>
+	<th>Blocked by</th>
+	<th>Blocks</th>
+	<th>Relates</th>
+	</tr>
+		<% issues.each do |bug| %>
+			<tr>
+			<%= render "link2bug_extended_tfpg", :i => bug %>
+			</tr>
+		<% end %>
+</table>
+<hr>
+<br /><br /><br />
+
+<% end %>
+
+<h3>Filter:</h3>
+<div>
+<%= form_tag( {}, method: "get") do %>
+  <%= text_area_tag 'jql', @jql.to_s, size: "100x6" %>
+  <br/><br/>
+  <%= submit_tag "Calculate" %>
+<% end %>
+</div> 
+<hr>
+<br/><br/>

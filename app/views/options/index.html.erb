@@ -1,0 +1,34 @@
+<table width=100%>
+<tr><td width=80%></td>
+<td align=right>
+<%= link_to "Daily Report", daily_report_path %>
+</td>
+</tr>
+</table>
+<h1>Listing options</h1>
+
+<table cellspacing="1" cellpadding="5" border="1" width="100%">
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>CR</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @options.each do |option| %>
+      <tr>
+        <td><%= option.key %></td>
+        <td><%= find_summary_by_key(option.option) %></td>
+        <td><%= link_to 'Edit', edit_option_path(option) %></td>
+        <td><%= link_to 'Destroy', option, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Option', new_option_path %>

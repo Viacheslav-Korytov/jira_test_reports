@@ -1,0 +1,22 @@
+<% no_caption = no_caption || false %>
+<% unless no_caption %>
+<table border="1" width="100%">
+<caption>
+	Test Cases
+</caption>
+<tr>
+	<td width=40%>Total</td>
+	<td width=20%>Passed</td>
+	<td width=20%>Failed</td>
+	<td width=20%>In Progress</td>
+</tr>
+<tr>
+<% end %>
+	<td><center><%= "#{@stat[0]} #{@stat[6]} #{@stat[12]}".html_safe %></center></td>
+	<td><center><%= "#{@stat[1]} #{@stat[7]}" %></center></td>
+	<td><center><%= "#{@stat[2]} #{@stat[8]}" %></center></td>
+	<td><center><%= "#{@stat[3]} #{@stat[9]}" %></center></td>
+<% unless no_caption %>
+</tr>
+</table>
+<% end %>

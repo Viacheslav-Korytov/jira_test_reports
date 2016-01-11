@@ -1,0 +1,121 @@
+<% if issues.size > 0 %>
+<% unless caption.nil? %>
+<h2><%= caption %></h2>
+<% end %>
+<table border="1" width=100%>
+	<tr bgcolor="#ddddff">
+	<th>ID</th>
+	<th>Summary</th>
+	<th>Priority</th>
+	<th>Status changes</th>
+	</tr>
+		<% issues.each do |bug| %>
+			<tr>
+			<%= render "link2bug_extended_dyn", :i => bug %>
+			</tr>
+		<% end %>
+</table>
+<hr>
+<br />
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    google.load('visualization', '1.1', {packages: ['line']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Date');
+      data.addColumn('number', 'Total');
+      data.addColumn('number', 'Opened');
+      data.addColumn('number', 'Closed');
+
+      data.addRows([
+		<% (issues[0].fields['created'].to_date..Time.now.to_date).each do |t| %>
+			[
+				'<%= t.strftime("%Y-%m-%d") %>',
+				<%= e = existed_issues_on_date(issues, t) %>,
+				<%= o = opened_issues_on_date(issues, t) %>,
+				<%= e - o %>
+			],
+		<% end %>
+      ]);
+
+      var options = {
+        chart: {
+          title: 'Dynamics of issues, daily',
+          subtitle: '(All not released projects)'
+        },
+        width: 1200,
+        height: 500,
+		series: [
+			{color: '#0000FF'},{},{},
+			{color: '#009900'}
+		]
+      };
+
+      var chart = new google.charts.Line(document.getElementById('linechart_issues'));
+
+      chart.draw(data, options);
+    }
+  </script>
+
+<div id="linechart_issues"></div>
+
+<h2>Daily dynamics</h2>
+
+<table border="1">
+	<tr bgcolor="#ddddff">
+	<th>Date</th>
+	<th>Total</th>
+	<th>Opened</th>
+	<th>Closed</th>
+	</tr>
+		<% (issues[0].fields['created'].to_date..Time.now.to_date).each do |t| %>
+			<tr>
+				<td><%= t.strftime("%Y-%m-%d") %> <%= "(#{t.cweek})" %></td>
+				<td><%= e = existed_issues_on_date(issues, t) %></td>
+				<td><%= o = opened_issues_on_date(issues, t) %></td>
+				<td><%= e - o %></td>
+			</tr>
+		<% end %>
+</table>
+<hr>
+<br />
+
+
+
+<h2>Activities per week</h2>
+
+<table border="1">
+	<tr bgcolor="#ddddff">
+	<th>Week</th>
+	<th>Created</th>
+	<th>Reopened</th>
+	<th>Regression issues</th>
+	<th>Ready for Testing</th>
+	<th>Closed after testing</th>
+	<th>Closed total</th>
+	<th>Reopen rate</th>
+	<th>Closed rate</th>
+	</tr>
+		<% (year_plus_week(issues[0].fields['created'])..year_plus_week(Time.now)).each do |yw| %>
+			<tr>
+				<td><%= show_week_days(yw) %></td>
+				<td><%= changed_status_from_to_during_week('ANY', 'Created', yw) %></td>
+				<td><%= r_o = changed_status_from_to_during_week('Ready for Testing', 'Reopened', yw) %></td>
+				<td><%= changed_status_from_to_during_week('Closed', 'Reopened', yw) %></td>
+				<td><%= r = have_status_this_week('Ready for Testing', yw) %></td>
+				<td><%= r_c = changed_status_from_to_during_week('Ready for Testing', 'Closed', yw) %></td>
+				<td><%= changed_status_from_to_during_week('ANY', 'Closed', yw) %></td>
+				<td><%= r == 0 ? 0 : r_o * 100 / r %>%</td>
+				<td><%= r == 0 ? 0 : r_c * 100 / r %>%</td>
+			</tr>
+		<% end %>
+</table>
+<hr>
+<br />
+
+
+<% end %>

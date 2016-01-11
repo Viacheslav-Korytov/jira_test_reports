@@ -1,0 +1,34 @@
+<% if issues.size > 0 %>
+<% if caption.nil? %>
+<h2>Critical Bugs still open</h2>
+<% else %>
+<h2><%= caption %></h2>
+<% end %>
+<table border="1" width=100%>
+<!--
+	<caption>
+		Internal bugs (TMS)
+	</caption>
+-->
+	<tr bgcolor="#ddddff">
+	<th>ID</th>
+	<th>Summary</th>
+	<th>Priority</th>
+	<th>Status</th>
+	<th>Assignee</th>
+	<th>Aging</th>
+	<th>CR</th>
+	</tr>
+	<% issues.each do |bug| %>
+		<% if bug.fields['status']['name'] == 'Closed' %>
+			<tr bgcolor="#CCFFCC">
+		<% else %>
+			<tr>
+		<% end %>
+			<%= render "link2bug_extended", :i => bug %>
+		</tr>
+	<% end %>
+</table>
+<hr>
+<br />
+<% end %>

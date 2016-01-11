@@ -1,0 +1,35 @@
+<%= form_for(@test_preparation) do |f| %>
+  <% if @test_preparation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@test_preparation.errors.count, "error") %> prohibited this test_preparation from being saved:</h2>
+
+      <ul>
+      <% @test_preparation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table cellspacing="1" cellpadding="5">
+<tr>
+  <td align=right>CR</td>
+  <td><%= f.select :issue, options_for_select(@wi_list, @test_preparation.issue) %></td>
+</tr>
+<tr>
+  <td align=right>Number of Test Cases planned</td>
+  <td><%= f.number_field :tc_plan %></td>
+</tr>
+<tr>
+  <td align=right>Planned start of execution</td>
+  <td><%= f.date_select :tc_date %></td>
+</tr>
+<tr>
+  <td align=right>Complete execution by</td>
+  <td><%= f.date_select :complete_date %></td>
+</tr>
+</table>
+  <br />
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

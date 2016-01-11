@@ -1,0 +1,30 @@
+<% unless uat_wi.nil? %>
+<h2><%= link_to "#{uat_wi.fields['summary']}", "#{@browse_address}#{uat_wi.key}", target: '_blank' %></h2>
+<table border="1" width=100%>
+	<tr bgcolor="#ddddff">
+	<th>ID (TMS)</th>
+	<th>ID (BZ)</th>
+	<th>Summary</th>
+	<th>Priority</th>
+	<th>Status</th>
+	<!--
+	<th>Assignee</th>
+	-->
+	</tr>
+	<% uat_wi.fields['subtasks'].sort_by { |u| u['key'] }.each do |bug| %>
+<!--		<% if bug['fields']['status']['name'] == 'Closed' %>
+			<tr bgcolor="#CCFFCC">
+		<% else %>
+			<tr>
+		<% end %>
+-->		
+		<% unless bug['fields']['status']['name'] == 'Closed' %>
+			<tr>
+			<%= render "link2bug_subtask", :i => bug %>
+			</tr>
+		<% end %>
+	<% end %>
+</table>
+<hr>
+<br />
+<% end %>

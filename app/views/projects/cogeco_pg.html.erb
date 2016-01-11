@@ -1,0 +1,32 @@
+<h1><center><%= "Cogeco PG" %></center></h1>
+<br>
+
+<%= render "cogeco_pg_stream", :stream_name => "Security", :stories => @qa_stories.reject{ |u| (u.fields['summary'].include?("MDU") || u.fields['summary'].include?("RBMI")) } %>
+<%= render "cogeco_pg_stream", :stream_name => "MDU", :stories => @qa_stories.select{ |u| u.fields['summary'].include? "MDU" } %>
+<%= render "cogeco_pg_stream", :stream_name => "OE_RBMI", :stories => @qa_stories.select{ |u| u.fields['summary'].include? "RBMI" } %>
+
+<%= render 'detailed_bug_stat_cogeco', :issues => @issues, :caption => 'Blockers and Critical issues' %>
+<%= render 'detailed_bug_stat_cogeco', :issues => @non_crit_issues, :caption => 'Non-critical issues' %>
+
+<br />
+<hr>
+<center>
+<%= link_to "Save current state of the report for using as a baseline", set_baseline_path+"?go=cogeco_pg", data: { confirm: 'Are you sure?' } %>
+</center>
+
+<!--
+<%= @qa_stories.size %>
+<hr>
+<br />
+<% @qa_stories.each do |story| %>
+<%= story if story.key.include? '757' %>
+<% end %>
+<hr>
+<br />
+-->
+<!--
+<%= @qa_tasks.size %>
+<hr>
+<br />
+<%= @qa_tasks[0] %>
+-->

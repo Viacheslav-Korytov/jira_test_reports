@@ -1,0 +1,70 @@
+<h1> <%= "#{@project.key} (#{@project.name})" %> </h1>
+
+<table border="2" width="100%">
+<% @wi.each do |issue| %>
+  <% unless @filter.include? issue.key %>
+
+	<% get_stat(issue) %>
+	<% get_bug_stat(issue) %>
+	
+	<tr>
+	<td width="8%"><%= link_to "#{issue.key}", "#{@browse_address}#{issue.key}", target: '_blank' %></td>
+	<td><%= "#{issue.fields['summary']}" %></td>
+	<td width="40%"><%= render "tc_stat" %></td>
+	<td width="40%"><%= render "bug_stat" %></td>
+	</tr>
+  <% end %>
+<% end %>
+</table>
+<hr>
+Work Items: (<%= @wi.size %>) |
+Issues: (<%= @issues.size %>)<br />
+<hr>
+<% @wi.each do |issue| %>
+
+	<% get_stat(issue) %>
+	<% get_bug_stat(issue) %>
+	
+	<h2><%= "#{issue.key} -- #{issue.fields['summary']}" %></h2>
+	<table width=100%>
+	<tr>
+	<td width=50%>
+		<%= render "tc_stat" %>
+	</td>
+	
+	<td width=50%>
+		<%= render "bug_stat" %>
+	</td>
+	</tr>
+	</table>
+	
+  <% if @stat[0] > 0 %>
+  <table border="1" width=100%>
+	<caption>
+		Test Cases
+	</caption>
+	<% issue.issuelinks.each do |link| %>
+		<tr>
+			<%= render "link", :link => link %>
+		</tr>
+	<% end %>
+  </table>
+  <% end %>
+  
+  <% if @bug_stat[0][0] > 0 %>
+  <table border="1" width=100% height=100% cellpadding=0 cellspacing=0>
+	<caption>
+		Bugs
+	</caption>
+	<% @issues.each do |bug| %>
+		<% if bug.parent['key'] == issue.key %>
+			<tr>
+				<%= render "link2bug", :i => bug %>
+			</tr>
+		<% end %>
+	<% end %>
+  </table>
+  <% end %>
+  
+  <br /><br />
+<% end %>

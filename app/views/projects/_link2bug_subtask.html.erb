@@ -1,0 +1,8 @@
+<td width="12%"><%= get_tms_link i['key'] %></td>
+<td width="8%"><center><%= get_bigzilla_link i['fields']['summary'] %></center></td>
+<td><%= "#{i['fields']['summary']}" %></td>
+<td width="7%"><%= "#{i['fields']['priority']['name']}" %></td>
+<td width="7%"><%= "#{i['fields']['status']['name']}" %></td>
+<!--
+<td width="17%"><%= "#{i['fields']['assignee']['displayName'] unless i['fields']['assignee'].nil? }" %></td> 
+-->

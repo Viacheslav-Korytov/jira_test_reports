@@ -1,0 +1,22 @@
+<td width="12%"><%= link_to "#{i.key}", "#{@browse_address}#{i.key}", target: '_blank' %></td>
+<td><%= link_to "#{i.fields['summary']}", "#{@browse_address}#{i.key}", target: '_blank' %></td>
+<td width="7%"><center>
+		<%= "#{i.fields['priority']['name']}" %>
+</center></td>
+<td width="7%"><center><%= "#{i.fields['status']['name']}" %></center></td>
+<td width="17%"><%= "#{i.fields['assignee']['displayName']}" unless i.fields['assignee'].nil? %></td>
+<td width="10%"><%= i.fields['created'][0..9] %></td>
+<td width="10%"><%= i.fields['updated'][0..9] %></td>
+<td width="10%"><%= last_status_change_date(i.key, i.fields['created'][0..9]) %></td>
+<td><%= "#{i.fields['duedate'][0..9]}" unless i.fields['duedate'].nil? %></td>
+<% lbl = label_added(i.key, ['SIT','Project','project'], i.fields['labels'], i.fields['created'][0..9]) %>
+<td width="15%"><%= lbl[0] %></td>
+<td width="10%"><%= lbl[1] %></td>
+<td><%= get_list_components(i) %></td>
+<td><%= get_count_blocks(i, 'Blocks', 'inwardIssue', ['Bug', 'Defect']) %></td>
+<td><%= get_count_blocks(i, 'Blocks', 'outwardIssue', ['Bug', 'Defect']) %></td>
+<td><%= sum_blocks([i, 'Blocks', 'outwardIssue', ['Test Case']], [i, 'Relates', 'outwardIssue', ['Test Case']], [i, 'Relates', 'inwardIssue', ['Test Case']]) %></td>
+<td><%= get_last_reopened(i) %></td>
+<td><%= get_list_blocks(i, 'Blocks', 'inwardIssue').html_safe %></td>
+<td><%= get_list_blocks(i, 'Blocks', 'outwardIssue').html_safe %></td>
+<td><%= [get_list_blocks(i, 'Relates', 'outwardIssue'), get_list_blocks(i, 'Relates', 'inwardIssue')].select{|e| e != ''}.join(', ').html_safe %></td>
